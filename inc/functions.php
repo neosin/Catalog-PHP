@@ -1,7 +1,7 @@
 <?php
 function get_item_html($id,$item) {
     $output = "<li><a href='details.php?id="
-        . $id . "'><img src='" 
+        . $item["media_id"] . "'><img src='" 
         . $item["img"] . "' alt='" 
         . $item["title"] . "' />" 
         . "<p>View Details</p>"
@@ -29,12 +29,27 @@ function array_category($catalog,$category) {
 function full_catalog_array() {
     include("connection.php");
     try {
-        $results = $db->query("SELECT title, category, img FROM Media");
+        $results = $db->query("SELECT media_id, title, category, img FROM Media");
     } catch(Exception $e) {
         echo "Unable to retrieve results";
         exit;
     }
     
     $catalog = $results->fetchAll();
+    return $catalog;
+}
+function single_item_array() {
+    include("connection.php");
+    try {
+        $results = $db->query("SELECT media_id, title, category, img, format, year FROM Media
+                                          JOIN Genres ON Media.genre_id = Genres.genre_id
+                                          LEFT OUTER JOIN Books ON Media.media_id = Books.media_id
+                                          WHERE Media.media_id = $id");
+    } catch(Exception $e) {
+        echo "Unable to retrieve results";
+        exit;
+    }
+    
+    $catalog = $results->fetch();
     return $catalog;
 }
