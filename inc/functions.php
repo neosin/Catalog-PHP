@@ -25,3 +25,16 @@ function array_category($catalog,$category) {
     asort($output);
     return array_keys($output);
 }
+
+function full_catalog_array() {
+    include("connection.php");
+    try {
+        $results = $db->query("SELECT title, category, img FROM Media");
+    } catch(Exception $e) {
+        echo "Unable to retrieve results";
+        exit;
+    }
+    
+    $catalog = $results->fetchAll();
+    return $catalog;
+}

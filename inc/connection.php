@@ -6,12 +6,7 @@ try {
     echo "Unable to connect";
     exit;
 }
-try {
-    $results = $db->query("SELECT title, category, img FROM Media");
-} catch(Exception $e) {
-    echo "Unable to retrieve results";
-    exit;
-}
 
-$catalog = $results->fetchAll();
+
+
 ?>
